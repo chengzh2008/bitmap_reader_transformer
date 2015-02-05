@@ -6,39 +6,39 @@ var myApp = function () {
         fs = require('fs'),
         fileName = process.argv[2],
         outputFileName,
-        buf, metaInfo, pixelData,
-        count, currentPixel;
+        buf, metaInfo, palette,
+        count, currentPalette;
 
     if (!fileName) {
         console.log("please give a picture to transform");
         return;
     }
 
-    fs.readFile(fileName, function (err, data) {
+    buf = fs.readFileSync(fileName);
+
+    metaInfo = bitmap.metaReader(buf);
+    palette = bitmap.getPaletteArray(buf);
+    //console.log(pixelData.length);
+
+    for (count = 0; count < palette.length; count++) {
+        currentPalette = palette.slice(count * 4, count * 4 + 4);
+        //console.log(currentPixel);
+        bitmap.invert(currentPalette); // invert each pixel
+        //console.log(currentPixel);
+    }
+    console.log(count);
+
+    // put modified pixelData into original buffer
+    palette.copy(buf, 54, 0, palette.length);
+
+
+    // save buf to a file
+    var inputFileInfo = fileName.split(".");
+    outputFileName = inputFileInfo[0] + "-inverted." + inputFileInfo[1];
+    fs.writeFile(outputFileName, buf, function (err) {
         if (err) {
             throw err;
         }
-
-        buf = data;
-        metaInfo = bitmap.metaReader(buf);
-        pixelData = myApp.pixelReader(buf);
-
-        for (count = 0; count < metaInfo.imageSize; count++) {
-            currentPixel = pixelData.slice(count * 4, 4);
-            bitmap.invert(currentPixel); // invert each pixel
-        }
-
-        // put modified pixelData into original buffer
-        pixelData.copy(buf, metaInfo.startOfPixels, 0, pixelData.length);
-
-        // save buf to a file
-        var inputFileInfo = fileName.split(".");
-        outputFileName = inputFileInfo[0] + "-inverted." + inputFileInfo[1];
-        fs.writeFile(outputFileName, buf, function (err) {
-            if (err) {
-                throw err;
-            }
-        });
     });
 };
 

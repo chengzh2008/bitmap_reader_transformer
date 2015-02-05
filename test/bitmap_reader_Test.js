@@ -8,7 +8,7 @@ describe('bitmap test', function () {
     var bitmapFile, bitmapMetaData, buf;
 
     before(function () {
-        bitmapFile = './pictures/test-2.bmp';
+        bitmapFile = 'test-2.bmp';
         bitmapMetaData = {
             type: 'BM',
             size: 11078,
@@ -38,12 +38,12 @@ describe('bitmap test', function () {
         expect(before).to.deep.eql(after);
     });
 
-    //it('should scale a buffer of size 4', function () {
-    //    var before = new Buffer([0xff, 0x0, 0xaa, 0]),
-    //        after = new Buffer([0x00, 0xff, 0x55, 0]);
-    //    myApp.invert(before);
-    //    expect(before).to.deep.eql(after);
-    //});
+    it('should output a map', function () {
+        var map = myApp.getColorIndexMap();
+        for (var key in map) {
+            console.log(key, map.key);
+        }
+    });
 
 });
 

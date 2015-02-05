@@ -38,7 +38,7 @@ module.exports = function (grunt) {
         },
         simplemocha: {
             all: {
-                src: ['test/**/*.js']
+                src: ['test/**/bit*.js']
             }
         }
     });
