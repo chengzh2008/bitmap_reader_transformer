@@ -11,7 +11,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         watch: {
             scripts: {
-                files: ['lib/*.js', 'Gruntfile.js', 'lib/**/*.js', 'test/**/*.js', 'index.js', '.jscsrc', '.jshintrc'],
+                files: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js', 'index.js', '.jscsrc', '.jshintrc'],
                 tasks: ['default'],
                 options: {
                     spawn: true
