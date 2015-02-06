@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = require('../index'),
+var transform = require('./lib/transform'),
     expect = require('chai').expect,
     fs = require('fs');
 
@@ -16,10 +16,9 @@ describe('myApp from index.js', function () {
 
 
     it('should take right filename', function () {
+        console.log(process.argv, "here!!!");
+        //myApp();
         console.log(process.argv);
-        myApp();
-        console.log(process.argv);
-        //expect(fs.existsSync(test-invert.bmp)).to.be.true;
     });
 
     // restore the process.argv
