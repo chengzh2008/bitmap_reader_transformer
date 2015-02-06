@@ -18,7 +18,8 @@ describe('bitmap test', function () {
             height: 100,
             colorDepth: 8,
             paletteSize: 256,
-            imageSize: 10000
+            imageSize: 10000,
+            startOfPalette: 54
         };
         buf = fs.readFileSync(bitmapFile);
     });

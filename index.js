@@ -1,50 +1,21 @@
 #! /usr/bin/env node
 "use strict";
-var bitmap = require('./lib/bitmap'),
-    path = require('path'),
-    fs = require('fs'),
-    myApp = function () {
-        var fileName = process.argv[2],
-            outputFileName,
-            buf, metaInfo, palette,
-            count, currentPalette,
-            inputFileInfo,
-            basename, extension;
+var myApp = require('./lib/transformer'),
+    fileName = process.argv[3],
+    transformTo = process.argv[2];
 
-        if (!fileName) {
-            console.log("please give a picture to transform");
-            return;
-        }
+// check for command line input validity
+if (!transformTo in ['invert', 'grayscale', 'scale']) {
+    console.log("invalid transform request");
+    return;
+}
 
-        buf = fs.readFileSync(fileName);
+if (!fileName) {
+    console.log("please give a picture to transform");
+    return;
+}
 
-        metaInfo = bitmap.metaReader(buf);
-        palette = bitmap.getPaletteArray(buf);
-        //console.log(pixelData.length);
-
-        for (count = 0; count < palette.length; count++) {
-            currentPalette = palette.slice(count * 4, count * 4 + 4);
-            //console.log(currentPixel);
-            bitmap.invert(currentPalette); // invert each pixel
-            //console.log(currentPixel);
-        }
-        console.log(count);
-
-        // put modified pixelData into original buffer
-        palette.copy(buf, 54, 0, palette.length);
-
-
-        // save buf to a file
-        extension = '.' + fileName.split('.')[1];
-        basename = path.basename(fileName, extension);
-        outputFileName = basename + "-inverted" + extension;
-        fs.writeFile(outputFileName, buf, function (err) {
-            if (err) {
-                throw err;
-            }
-        });
-    };
-
-myApp();
+// do the job
+myApp.transform(fileName, transformTo);
 
 module.exports = myApp;
