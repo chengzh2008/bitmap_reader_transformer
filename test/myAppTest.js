@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = require('../index.js'),
+var myApp = require('../index'),
     expect = require('chai').expect;
 
 describe('myApp from index.js', function () {
@@ -9,7 +9,7 @@ describe('myApp from index.js', function () {
     before(function () {
         // cache the current process.argv
         arg_cache = process.argv;
-        process.argv[2] = "test-2.bmp";
+        process.argv = ['node', 'index.js', 'test.bmp'];
     });
 
     // restore the process.argv
