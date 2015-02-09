@@ -22,8 +22,6 @@ if (format.indexOf(':') >= 0) {
     transformTo = format;
 }
 
-console.log(rgb, transformTo, factor);
-
 // check input is valid or not
 if (options.indexOf(transformTo) < 0) {
     console.log("invalid transform request");
