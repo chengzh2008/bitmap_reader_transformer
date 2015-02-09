@@ -30,6 +30,12 @@ describe('bitmap test', function () {
 
     it('should read the pixel data as buffer with correct size', function () {
         var pixelOutput = myApp.pixelReader(buf);
+        expect(pixelOutput.length).to.be.eql(bitmapMetaData.imageSize);
+    });
+
+    it('should read the palette data as buffer with correct size', function () {
+        var palette = myApp.getPaletteArray(buf);
+        expect(palette.length).to.be.eql(bitmapMetaData.paletteSize * 4);
     });
 
     it('should invert color in a buffer of size 4', function () {
@@ -38,6 +44,27 @@ describe('bitmap test', function () {
         myApp.invert(before);
         expect(before).to.deep.eql(after);
     });
+
+    it('should grayscale color in a buffer of size 4', function () {
+        var before, after;
+
+        before = new Buffer([0x03, 0x11, 0x33, 0]);
+        after = new Buffer([0x03, 0x11, 0x33, 0]);
+        myApp.grayscale(before, 1);
+        expect(before).to.deep.eql(after);
+
+        before = new Buffer([0x13, 0x14, 0x20, 0]);
+        after = new Buffer([0x39, 0x3c, 0x60, 0]);
+        myApp.grayscale(before, 3);
+        expect(before).to.deep.eql(after);
+
+        before = new Buffer([0x25, 0x38, 0x13, 0]);
+        after = new Buffer([0x94, 0xe0, 0x4c, 0]);
+        myApp.grayscale(before, 4);
+        expect(before).to.deep.eql(after);
+    });
+
+
 
 
 });
